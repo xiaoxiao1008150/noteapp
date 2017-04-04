@@ -54,6 +54,7 @@ export class SearchComponent {
   current_note:any;
   cached:Boolean = false;
   isDelete = true;
+  sid :string;
 
     constructor(
       public actions: SearchActions,
@@ -90,20 +91,17 @@ export class SearchComponent {
     this.title = note.title;
     this.current_note = note;
     // this.new = 'update';
+    this.sid = note.sid;
+
   }
 
 
    saveNote(text,title){
      this.cached = true
       this.actions.updateNote(this.current_note,this.text,this.title);
-   
-        this.service.getNotes()
-          .then(data => {
-          let mynote = data.filter(item => item.sid == this.current_note.sid)
-          console.log('note',mynote);
-          this.service.updateNote(mynote[0])
-              .then(data =>{this.cached = false});
-      }) 
+      this.service.updateNote(this.current_note,this.text,this.title)
+                   .then(data =>{this.cached = false});
+      
   }
 
   deleteNote(note){
@@ -117,10 +115,13 @@ export class SearchComponent {
           this.actions.deleteNote(note);
           this.isDelete = true;
           let mynote = this.ngRedux.getState().noteSearch[0];
-          this.showNoteText(mynote);
+           if(mynote){
+            this.showNoteText(mynote); 
+            }
          });
       }) 
 
 
   }
+  
 }

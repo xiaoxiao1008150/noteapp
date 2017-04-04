@@ -70,7 +70,7 @@ export class NoteComponent implements OnInit {
   noteList:any;
   cached:Boolean = false;
   isLoading:Boolean = true;
-  id:number;
+  id:string;
   showCancel:Boolean = false;
   isDelete = true;
 
@@ -99,23 +99,18 @@ export class NoteComponent implements OnInit {
 
     this._NoteService.getNotes()
           .then(data => {
-            // console.log('data',data);
+            console.log('data',data);
             this.isLoading = false;
             this.noteList = data.map(item=>{return item})
             this.actions.addToNoteList(this.noteList)
-            console.log('statenote',this.ngRedux.getState().note)
           })  
     }
-     // this._NoteService.getNotes(data =>{this.noteList = data})
 
   }
-  // sort(){
-  //   this.isSort = true;
-  // }
+ 
   spread(){
     this.screenfull = 'yes';
     this.isShirnk = true;
-    console.log('yes')
   }
 
   shirnk(){
@@ -133,7 +128,6 @@ export class NoteComponent implements OnInit {
     this.showCancel = true;
 
 
-    //这里有个动画
 
   }
 
@@ -148,6 +142,7 @@ export class NoteComponent implements OnInit {
     this.title = note.title;
     this.current_note = note;
     this.new = 'update';
+    this.id = note.sid;
   }
 
   saveNote(text,title){
@@ -155,17 +150,19 @@ export class NoteComponent implements OnInit {
     if(text=='' && title==''){return}
     if(this.new=='update'){
       this.cached = true;
+      console.log('update');
       this.actions.updateNote(this.current_note,this.text,this.title);
       //
 
-
-      this._NoteService.getNotes()
-          .then(data => {
-          let mynote = data.filter(item => item.sid == this.current_note.sid)
-          console.log('note',mynote);
-          this._NoteService.updateNote(mynote[0])
-              .then(data =>{this.cached = false});
-      })  
+      this._NoteService.updateNote(this.current_note,this.text,this.title)
+                       .then(data =>{this.cached = false});
+      // this._NoteService.getNotes()
+      //     .then(data => {
+      //     let mynote = data.filter(item => item.sid == this.current_note.sid)
+      //     console.log('data',mynote[0]);
+      //     this._NoteService.updateNote(mynote[0])
+      //         .then(data =>{this.cached = false});
+      // })  
 
       //
     }else{
@@ -174,12 +171,10 @@ export class NoteComponent implements OnInit {
       this.actions.addNote(text,title);
       let new_note = this.ngRedux.getState().note[0];
       let sid = new_note.sid
-      // this.submit = 'yes'
       //将数据存到数据库中
       this._NoteService.addNote(sid,title,text)
            .then(data =>{this.cached = false;
       //
-      // let new_note = this.ngRedux.getState().note[0];
       this.showNoteText(new_note)
 });
       this.show = false;
@@ -202,7 +197,9 @@ export class NoteComponent implements OnInit {
             this.isDelete = true;
             let mynote = this.ngRedux.getState().note[0];
             // 
+            if(mynote){
             this.showNoteText(mynote); 
+            }
           })
       })
     //
@@ -210,11 +207,15 @@ export class NoteComponent implements OnInit {
 
    
   }
+    
+   
+
+   
+  
 
   search(){
     this.isShowSearch = true;
     sessionStorage.setItem('test',JSON.stringify(this.isShowSearch))
-    console.log(JSON.parse(sessionStorage.getItem('test')))
   }
 
 
@@ -224,7 +225,6 @@ export class NoteComponent implements OnInit {
   }
 
   goToNote(){
-    console.log('test');
     this.isShowSearch = false;
   }
 }

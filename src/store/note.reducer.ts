@@ -9,18 +9,12 @@ export interface noteDemo{
   type:string
 }
 
-
-
-
-
-
 const INITIAL_STATE: noteDemo[]=[];
 
 export function noteReducer(state = INITIAL_STATE, action:any) {
   switch (action.type) {
     case NoteActions.ADD_NOTE:
        let uuid = UUID.UUID();
-       console.log('uuid',uuid)
        return [
             {
               sid:uuid,

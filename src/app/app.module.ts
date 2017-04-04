@@ -1,7 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { CommonModule }       from '@angular/common';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
@@ -16,7 +19,6 @@ import { NoteService } from './provider/note.service';
 
 import { AppRoutingModule}   from './app-route.module';
 //redux
-import { NgModule } from '@angular/core';
 import { NgReduxModule, DevToolsExtension } from '@angular-redux/store';
 import { NoteActions } from './note/note.actions';
 import { SearchActions } from './note/search.actions';
@@ -42,7 +44,8 @@ import { SearchActions } from './note/search.actions';
   providers: [
     NoteActions,
     NoteService,
-    SearchActions
+    SearchActions,
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]
 })

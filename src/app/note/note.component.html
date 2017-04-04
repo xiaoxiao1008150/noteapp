@@ -3,7 +3,7 @@
 </div>
 
 <div *ngIf='!isLoading'>
-  
+
   <div id='wrapper' [@titleState]="screenfull">
     <ul>
        <li *ngIf='!isShowSearch' >
@@ -35,12 +35,13 @@
             <md-card-content>{{text}} </md-card-content>
           </md-card>
          
-          <!-- <div class="title" *ngIf='show'>text：{{text}}</div> -->
           <div>
               <md-card class="title" (click)='showNoteText(note)' *ngFor='let note of notes$ | async'> 
                 <p id='delete' (click)='deleteNote(note)'>
                   <md-icon *ngIf='isDelete' style='color:#fff'>delete</md-icon>
-                  <md-spinner *ngIf='!isDelete'color='accent' id='cached'></md-spinner>
+                  <span *ngIf='!isDelete'>
+                      <md-spinner *ngIf='note.sid == id' color='accent' id='cached'></md-spinner>
+                  </span>
                 </p>
               <md-card-title>{{note.title}}</md-card-title>
               <md-card-content> {{note.text}}</md-card-content> 
@@ -63,7 +64,7 @@
           <div id="textarea">
             <div id='icon-w'>
               <md-icon id='done' *ngIf='!cached' (click)="saveNote(text,title);">save</md-icon>
-
+              
               <md-spinner color='accent' id='cached' *ngIf='cached'></md-spinner>
               <md-icon *ngIf='showCancel' id='cancel' (click)='cancel()'>cancel</md-icon>
             </div>

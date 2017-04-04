@@ -54,6 +54,19 @@ ul li button{
     width: 100%;
 }
 
+#trash{
+    position: fixed;
+    top: 50px;
+    left: calc((100% - 400px)/2);
+    background: rgb(147, 198, 156);
+    width: 400px;
+    height: 40px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 6px;
+    z-index: 9999;
+    color:#fff;
+}
 
 
 

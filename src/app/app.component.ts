@@ -11,11 +11,7 @@ import{NoteActions} from './note/note.actions';
 })
 export class AppComponent {
 
-  // @HostListener('document:keyup', ['$event'])
-  // onKeyUp() {
-  //   // do something meaningful with it
-  //   console.log(`The user just pressed !`);
-  // }
+
 
     @HostListener('window:beforeunload', [ '$event' ])
     onBeforeUnload(event) {

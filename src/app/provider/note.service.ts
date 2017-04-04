@@ -24,15 +24,7 @@ export class NoteService{
     }
 
 
-    // getNote(note):Promise<any>{
-    //   const url = `${this.noteUrl}/?sid=${note.sid}`;
-    //     console.log('url',url);
-    //     return this._http.get(url)
-    //            .toPromise()
-    //            .then(response => {console.log('serdata',response.json());return response.json()})
-    //            .catch(this.handleError);
-    // }
-
+  
 
     
    addNote(sid,title,text): Promise<any> {
@@ -46,20 +38,19 @@ export class NoteService{
 
 
 
-  updateNote(note): Promise<any> {
+  updateNote(note,text,title): Promise<any> {
     const url = `${this.noteUrl}/${note.id}`;
-
+    console.log('serupdae')
     return this._http
-      .put(url, JSON.stringify({title:note.title,text:note.text}), {headers: this.headers})
+      .put(url, JSON.stringify({title:title,text:text}), {headers: this.headers})
       .toPromise()
-      .then(res => res.json())
+      .then(res => {console.log('updateda',res.json()); return res.json()})
       .catch(this.handleError);
   }
 
 
   deleteNote(note): Promise<any> {
     const url = `${this.noteUrl}/${note.id}`;
-    console.log('id',note.id);
      return this._http.delete(url, {headers: this.headers})
       .toPromise()
       .then(() => null)

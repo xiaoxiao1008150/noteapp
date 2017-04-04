@@ -17,7 +17,9 @@
             <md-card class="title" (click)='showNoteText(note)' *ngFor='let note of noteSearch$ | async'> 
               <p id='delete' (click)='deleteNote(note)'>
                  <md-icon *ngIf='isDelete' style='color:#fff'>delete</md-icon>
-                <md-spinner id='cached' *ngIf='!isDelete'color='accent'></md-spinner>
+                <span *ngIf='!isDelete'>
+                      <md-spinner *ngIf='note.sid == sid' color='accent' id='cached'></md-spinner>
+                  </span>
               </p>
             <md-card-title>{{note.title}}</md-card-title>
             <md-card-content> {{note.text}}</md-card-content> 
